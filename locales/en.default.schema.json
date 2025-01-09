@@ -1995,6 +1995,9 @@
         "price": {
           "name": "Price"
         },
+        "embroidered": {
+          "name": "Embroidered"
+        },
         "inventory": {
           "name": "Inventory status",
           "settings": {

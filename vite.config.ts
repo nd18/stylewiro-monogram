@@ -9,7 +9,7 @@ export default defineConfig({
       input: 'styles.css',
       output: {
         dir: 'assets',
-        assetFileNames: '[name][extname]',
+        assetFileNames: 'styles.css',
       }
     }
   }

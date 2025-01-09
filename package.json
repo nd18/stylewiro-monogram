@@ -1,0 +1,25 @@
+{
+  "name": "dawn-with-tailwind",
+  "version": "15.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "run-p -sr shopify:dev watch",
+    "shopify:dev": "shopify theme dev -e dev",
+    "pull": "shopify theme pull -d -o sections/*.json templates/*.json templates/customers/*.json config/settings_data.json",
+    "watch": "vite build -w",
+    "build": "vite build --minify"
+  },
+  "devDependencies": {
+    "@shopify/cli": "latest",
+    "@shopify/prettier-plugin-liquid": "latest",
+    "@shopify/theme": "latest",
+    "autoprefixer": "latest",
+    "npm-run-all": "latest",
+    "postcss": "latest",
+    "prettier": "latest",
+    "tailwindcss": "latest",
+    "tailwindcss-rem-to-px": "latest",
+    "vite": "latest"
+  }
+}

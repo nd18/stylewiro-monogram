@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "run-p -sr shopify:dev watch",
+    "dev": "shopify theme dev --store stylewiro",
     "shopify:dev": "shopify theme dev -e dev",
     "pull": "shopify theme pull -d -o sections/*.json templates/*.json templates/customers/*.json config/settings_data.json",
     "watch": "vite build -w",

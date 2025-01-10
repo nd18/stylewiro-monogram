@@ -141,7 +141,9 @@
                   {%- endform -%}
                 </div>
               {%- when 'embroidered' -%}
-                {% render 'embroidered' %}
+                {% if product.metafields.custom.choose_your_embroidery_object.value %}
+                  {% render 'embroidered' %}
+                {% endif %}
               {%- when 'inventory' -%}
                 <p
                   class="product__inventory{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.inventory_management != 'shopify' %} visibility-hidden{% endif %}"

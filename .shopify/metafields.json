@@ -23,7 +23,7 @@
     {
       "key": "choose_your_embroidery_object",
       "namespace": "custom",
-      "name": "choose your Embroidery Object",
+      "name": "Choose Your Embroidery Object",
       "description": "",
       "type": {
         "name": "metaobject_reference",

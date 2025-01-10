@@ -1,5 +1,132 @@
-<h3>Embroidered Start</h3>
+{% liquid
+  assign selected_embroidered = product.metafields.custom.choose_your_embroidery_object.value
 
-{% assign selected_embroidered = product.metafields.custom.choose_your_embroidery_object.value %}
+  assign display_name = selected_embroidered.embroider_product_display_name
+  assign field_title = selected_embroidered.embroidered_field_title
+  assign input_placeholder = selected_embroidered.input_placeholder
+  assign characters_limit = selected_embroidered.characters_limit
 
-<h1>{{ selected_embroidered.embroider_product_display_name }}</h1>
+  assign color_field_label = selected_embroidered.embroidered_color_field_label
+  assign color_product = selected_embroidered.embroidered_color_product.value
+  assign first_variant = color_product.selected_or_first_available_variant
+
+  assign font_field_label = selected_embroidered.embroidered_font_field_label
+  assign font_option = selected_embroidered.choose_font
+
+  assign last_note = selected_embroidered.last_note
+%}
+
+<div class="w-full mx-auto space-y-4">
+  <!-- Accordion Item -->
+  <div class="border border-gray-200 rounded">
+    <!-- Accordion Title -->
+    <div
+      class="flex items-center justify-between p-4 bg-gray-100 border-b border-gray-200 cursor-pointer"
+      onclick="toggleAccordion(this)"
+    >
+      <label class="flex items-center space-x-3 pointer-events-none">
+        <input type="checkbox" class="w-5 h-5 text-black border-gray-300 rounded focus:ring-black">
+        <span class="text-black">{{ display_name }}</span>
+      </label>
+      <span class="text-black font-medium">{{ first_variant.price | money }}</span>
+    </div>
+    <!-- Accordion Content -->
+    <div class="hidden p-4 bg-white">
+      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <!-- Left Column: Content -->
+        <div class="space-y-6">
+          <!-- Add Characters Input -->
+          <div>
+            <label class="block text-base font-medium text-gray-800 mb-2" for="embroidered_name">
+              {{- field_title -}}
+            </label>
+            <input
+              type="text"
+              id="embroidered_name"
+              placeholder="{{ input_placeholder }}"
+              maxlength="{{ characters_limit }}"
+              class="w-full p-2 border border-gray-300 rounded outline-none shadow-none"
+            >
+          </div>
+
+          <!-- Choose Letter Colour -->
+          <div>
+            <p class="text-base font-medium text-gray-800 mb-2">{{ color_field_label }}</p>
+            <div class="items-center space-x-4">
+              <fieldset class="product-form__input product-form__input--swatch">
+                {% comment %} {% render 'product-variant-picker', product: color_product %} {% endcomment %}
+
+                {%- for option in color_product.options_with_values -%}
+                  {%- capture input_name -%}
+                    {{ option.name }}-{{ option.position }}
+                  {%- endcapture -%}
+
+                  {%- for value in option.values -%}
+                    {% assign var_id = 0 %}
+                    {% assign var_price = 0 %}
+                    {% assign color_val = value | handleize %}
+                    {% for variant in color_product.variants %}
+                      {% assign var_title = variant.title | handleize %}
+                      {% if var_title == color_val %}
+                        {% assign var_id = variant.id %}
+                        {% assign var_price = variant.price %}
+                      {% endif %}
+                    {% endfor %}
+
+                    {%- capture input_id -%}
+                      embroidered-{{ option.position }}-{{ forloop.index0 -}}
+                    {%- endcapture -%}
+
+                    <div class="product-color" data-var-id="{{ var_id }}"  data-var-price="{{ var_price | money }}">
+                      {%
+                        render 'swatch-input',
+                        id: input_id,
+                        name: input_name,
+                        value: value | escape,
+                        swatch: value.swatch,
+                        product_form_id: 'embroidered-form',
+                        checked: false,
+                        visually_disabled: option_disabled,
+                        shape: 'circle'
+                      %}
+                      <p>{{ value | escape }}</p>
+                    </div>
+                  {% endfor %}
+                {% endfor %}
+              </fieldset>
+            </div>
+          </div>
+
+          <!-- Choose Font -->
+          <div>
+            <p class="text-base font-medium text-gray-800 mb-2">{{ font_field_label }}</p>
+            <div class="flex items-center space-x-4">
+              {% for font in font_option.value %}
+                <label class="flex items-center cursor-pointer center w-full">
+                  <input
+                    type="radio"
+                    name="font-choice"
+                    value="{{ font | handleize }}"
+                    class="hidden peer outline-none shadow-none"
+                  >
+                  <span class="px-4 py-2 w-full border border-gray-300 rounded bg-white text-sm font-{{ font | handleize }} font-medium text-gray-800 peer-checked:border-gray-800">
+                    {{- font -}}
+                  </span>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Image -->
+        <div class="flex justify-center items-center">
+          <div class="w-48 h-48 border border-gray-300 bg-gray-100 rounded flex items-center justify-center">
+            <p class="text-sm text-gray-400">Mockup Image</p>
+          </div>
+        </div>
+      </div>
+      <!-- Disclaimer -->
+      <p class="text-sm text-gray-600">{{ last_note }}</p>
+    </div>
+  </div>
+</div>

@@ -16,19 +16,19 @@
   assign last_note = selected_embroidered.last_note
 %}
 
-<div class="w-full mx-auto space-y-4">
+<div id="embroidered_option" class="w-full mx-auto space-y-4">
   <!-- Accordion Item -->
   <div class="border border-gray-200 rounded">
     <!-- Accordion Title -->
     <div
-      class="flex items-center justify-between p-4 bg-gray-100 border-b border-gray-200 cursor-pointer"
+      class="accordion-title flex items-center justify-between p-4 bg-gray-100 border-b border-gray-200 cursor-pointer"
       onclick="toggleAccordion(this)"
     >
       <label class="flex items-center space-x-3 pointer-events-none">
         <input type="checkbox" class="w-5 h-5 text-black border-gray-300 rounded focus:ring-black">
         <span class="text-black">{{ display_name }}</span>
       </label>
-      <span class="text-black font-medium">{{ first_variant.price | money }}</span>
+      <span class="text-black font-medium product-price">{{ first_variant.price | money }}</span>
     </div>
     <!-- Accordion Content -->
     <div class="hidden p-4 bg-white">
@@ -100,7 +100,7 @@
           <!-- Choose Font -->
           <div>
             <p class="text-base font-medium text-gray-800 mb-2">{{ font_field_label }}</p>
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4 product-font-option">
               {% for font in font_option.value %}
                 <label class="flex items-center cursor-pointer center w-full">
                   <input
@@ -119,7 +119,7 @@
         </div>
 
         <!-- Right Column: Image -->
-        <div class="flex justify-center items-center">
+        <div class="flex items-center">
           <div class="w-48 h-48 border border-gray-300 bg-gray-100 rounded flex items-center justify-center">
             <p class="text-sm text-gray-400">Mockup Image</p>
           </div>

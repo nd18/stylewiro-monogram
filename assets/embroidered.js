@@ -1,70 +1,103 @@
-function toggleAccordion(element) {
-  // Ensure the checkbox is not toggled when clicking on other areas
-  const checkbox = element.querySelector('input[type="checkbox"]');
-  if (!checkbox.checked) {
-    checkbox.checked = true;
-  } else {
-    checkbox.checked = false;
-  }
-
-  // Toggle the content visibility
-  const content = element.nextElementSibling;
-  content.classList.toggle('hidden');
-}
-
-// Get the input and hidden input elements
+// DOM Elements
 const embroideredNameInput = document.getElementById("embroidered_name");
 const hiddenNameInput = document.getElementById("hidden_embroidered_name");
 
-// Add an event listener to track input events
-embroideredNameInput.addEventListener("input", function () {
-  // Remove 'disabled' attribute from the hidden input if it exists
-  if (hiddenNameInput.hasAttribute("disabled")) {
-    hiddenNameInput.removeAttribute("disabled");
-  }
-
-  // Update the hidden input value with the entered text
-  hiddenNameInput.value = this.value;
-
-  // If the text input is empty, add 'disabled' attribute back to the hidden input
-  if (this.value.trim() === "") {
-    hiddenNameInput.setAttribute("disabled", "disabled");
-  }
-});
-
-
-// Get all radio input elements and the hidden input element
 const embroideredColorInputs = document.querySelectorAll(".product-color input[type='radio']");
 const hiddenColorInput = document.getElementById("hidden_embroidered_color");
 const hiddenProductColorInput = document.getElementById("hidden_embroidered_color_product");
+const productPriceDOM = document.querySelector("#embroidered_option .accordion-title .product-price");
 
-// Loop through each radio input and add an event listener
+const embroideredFontInputs = document.querySelectorAll(".product-font-option input[type='radio']");
+const hiddenFontInput = document.getElementById("hidden_embroidered_font");
+
+
+// Toggles the accordion visibility and resets associated inputs.
+function toggleAccordion(element) {
+  const checkbox = element.querySelector('input[type="checkbox"]');
+  const content = element.nextElementSibling;
+
+  if (checkbox) {
+    checkbox.checked = !checkbox.checked;
+    if (!checkbox.checked) {
+      resetHiddenInputs();
+    }
+  }
+
+  if (content) {
+    content.classList.toggle("hidden");
+  }
+}
+
+
+// Resets all hidden inputs to their default states.
+function resetHiddenInputs() {
+  // Reset the text input
+  if (embroideredNameInput) {
+    embroideredNameInput.value = "";
+  }
+  if (hiddenNameInput) {
+    hiddenNameInput.value = "";
+    hiddenNameInput.setAttribute("disabled", "disabled");
+  }
+
+  // Reset radio inputs for color
+  if (embroideredColorInputs) {
+    embroideredColorInputs.forEach((input) => {
+      input.checked = false;
+    });
+  }
+  if (hiddenColorInput) {
+    hiddenColorInput.value = "";
+    hiddenColorInput.setAttribute("disabled", "disabled");
+  }
+  if (hiddenProductColorInput) {
+    hiddenProductColorInput.value = "";
+    hiddenProductColorInput.setAttribute("disabled", "disabled");
+  }
+
+  // Reset radio inputs for font
+  if (embroideredFontInputs) {
+    embroideredFontInputs.forEach((input) => {
+      input.checked = false;
+    });
+  }
+  if (hiddenFontInput) {
+    hiddenFontInput.value = "";
+    hiddenFontInput.setAttribute("disabled", "disabled");
+  }
+}
+
+
+// Event Listener for Embroidered Name Input
+embroideredNameInput?.addEventListener("input", function () {
+  hiddenNameInput.value = this.value.trim();
+  hiddenNameInput.toggleAttribute("disabled", this.value.trim() === "");
+});
+
+// Event Listener for Embroidered Color Inputs
 embroideredColorInputs.forEach((radioInput) => {
   radioInput.addEventListener("change", function () {
-    var currentVarId = this.parentElement.attributes['data-var-id'].value;
-    var currentVarPrice = this.parentElement.attributes['data-var-price'].value;
+    const currentVarId = this.parentElement.dataset.varId || "";
+    const currentVarPrice = this.parentElement.dataset.varPrice || "";
 
-    // Remove 'disabled' attribute from the hidden input if it exists
-    if (hiddenColorInput.hasAttribute("disabled")) {
-      hiddenColorInput.removeAttribute("disabled");
-    }
-
-    if (hiddenProductColorInput.hasAttribute("disabled")) {
-      hiddenProductColorInput.removeAttribute("disabled");
-    }
-
-    // Update the hidden input value with the selected radio's value
     hiddenColorInput.value = this.value;
-    
-    // Update the hidden input value with the selected radio's value
     hiddenProductColorInput.value = currentVarId;
+    productPriceDOM.textContent = currentVarPrice;
 
-    // If no radio is selected, add 'disabled' attribute back to the hidden input
-    const anyChecked = [...embroideredColorInputs].some((input) => input.checked);
-    if (!anyChecked) {
+    hiddenColorInput.removeAttribute("disabled");
+    hiddenProductColorInput.removeAttribute("disabled");
+
+    if (![...embroideredColorInputs].some((input) => input.checked)) {
       hiddenColorInput.setAttribute("disabled", "disabled");
       hiddenProductColorInput.setAttribute("disabled", "disabled");
     }
   });
 });
 
+// Event Listener for Embroidered Font Inputs
+embroideredFontInputs.forEach((input) => {
+  input.addEventListener("change", function () {
+    hiddenFontInput.value = this.value.trim();
+    hiddenFontInput.toggleAttribute("disabled", this.value.trim() === "");
+  });
+});

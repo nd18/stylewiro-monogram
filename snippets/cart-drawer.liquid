@@ -17,6 +17,16 @@
   }
 </style>
 
+{% liquid
+  assign embroidered_object = shop.metaobjects.embroider.values
+  assign product_ids = ''
+  for embroidered_data in embroidered_object
+    assign embroidered_products = embroidered_data.embroidered_color_product.value
+    assign product_ids = product_ids | append: embroidered_products.id | append: ','
+  endfor
+  assign product_ids_array = product_ids | split: ',' | uniq
+%}
+
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
   <div id="CartDrawer" class="cart-drawer">
     <div id="CartDrawer-Overlay" class="cart-drawer__overlay"></div>
@@ -118,7 +128,15 @@
 
                   <tbody role="rowgroup">
                     {%- for item in cart.items -%}
-                      <tr id="CartDrawer-Item-{{ item.index | plus: 1 }}" class="cart-item" role="row">
+                      {% assign is_match = false %}
+                      {% for product_id in product_ids_array %}
+                        {% assign productId = product_id| times: 1 %}
+                        {% if productId == item.product.id %}
+                          {% assign is_match = true %}
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
+                      <tr id="CartDrawer-Item-{{ item.index | plus: 1 }}" class="cart-item" role="row" {% if is_match %}style="display:none"{% endif %}>
                         <td class="cart-item__media" role="cell" headers="CartDrawer-ColumnProductImage">
                           {% if item.image %}
                             {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
@@ -185,21 +203,23 @@
                                 {%- assign property_first_char = property.first | slice: 0 -%}
                                 {%- if property.last != blank and property_first_char != '_' -%}
                                   <div class="product-option">
-                                    <dt>{{ property.first }}:</dt>
-                                    <dd>
-                                      {%- if property.last contains '/uploads/' -%}
-                                        <a
-                                          href="{{ property.last }}"
-                                          class="link"
-                                          target="_blank"
-                                          aria-describedby="a11y-new-window-message"
-                                        >
-                                          {{ property.last | split: '/' | last }}
-                                        </a>
-                                      {%- else -%}
-                                        {{ property.last }}
-                                      {%- endif -%}
-                                    </dd>
+                                    {% unless property.first contains 'Embroidered' %}
+                                      <dt>{{ property.first }}:</dt>
+                                      <dd>
+                                        {%- if property.last contains '/uploads/' -%}
+                                          <a
+                                            href="{{ property.last }}"
+                                            class="link"
+                                            target="_blank"
+                                            aria-describedby="a11y-new-window-message"
+                                          >
+                                            {{ property.last | split: '/' | last }}
+                                          </a>
+                                        {%- else -%}
+                                          {{ property.last }}
+                                        {%- endif -%}
+                                      </dd>
+                                    {% endunless %}
                                   </div>
                                 {%- endif -%}
                               {%- endfor -%}
@@ -440,6 +460,12 @@
                             </div>
                           </quantity-popover>
                         </td>
+
+                        <td class="col-span-4">
+                          {% if item.product.metafields.custom.choose_your_embroidery_object.value %}
+                            {% render 'embroidered-cart-drawer', item: item %}
+                          {% endif %}
+                        </td>
                       </tr>
                     {%- endfor -%}
                   </tbody>
@@ -454,6 +480,8 @@
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
       </cart-drawer-items>
+
+      {% comment %} Drawer Footer {% endcomment %}
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">

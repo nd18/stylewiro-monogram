@@ -99,9 +99,15 @@
         </div>
         
         {% if product.metafields.custom.choose_your_embroidery_object.value %}
-          <input id="hidden_embroidered_color_product" type="hidden" name="items['1'][id]" value="" disabled>
+          <input id="hidden_embroidered_color_product" type="hidden" name="items[1][id]" value="" disabled>
+          <input id="hidden_embroidered_color_product_time" type="hidden" name="items[1]properties[time]" value="{{ 'now' | date: "%s" }}" disabled>
+
           <input id="hidden_embroidered_name" type="hidden" name="properties[Embroidered Name]" value="" disabled>
+
           <input id="hidden_embroidered_color" type="hidden" name="properties[Embroidered Color]" value="" disabled>
+          <input id="hidden_embroidered_color_varID" type="hidden" name="properties[Embroidered Color Variant ID]" value="" disabled>
+          <input id="hidden_embroidered_time" type="hidden" name="properties[Embroidered Unik Time]" value="{{ 'now' | date: "%s" }}" disabled>
+
           <input id="hidden_embroidered_font" type="hidden" name="properties[Embroidered Font]" value="" disabled>
         {% endif %}
 

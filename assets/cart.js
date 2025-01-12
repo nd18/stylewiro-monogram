@@ -19,7 +19,9 @@ class CartItems extends HTMLElement {
       document.getElementById('shopping-cart-line-item-status') || document.getElementById('CartDrawer-LineItemStatus');
 
     const debouncedOnChange = debounce((event) => {
-      this.onChange(event);
+      if(!event.target.classList.contains('embroidered_input')){
+        this.onChange(event);
+      }
     }, ON_CHANGE_DEBOUNCE_TIMER);
 
     this.addEventListener('change', debouncedOnChange.bind(this));

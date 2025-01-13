@@ -1,33 +1,3 @@
-# Dawn with Tailwind CSS
-
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat&colorA=338fbb&colorB=1c1c1c&logoColor=ffffff)](https://github.com/odestry/.github/blob/main/CONTRIBUTING.md)
-[![CI](https://img.shields.io/github/actions/workflow/status/odestry/dawn-with-tailwind/ci.yml?style=flat&label=CI&colorA=338fbb&colorB=1c1c1c&logoColor=ffffff)](https://github.com/odestry/dawn-with-tailwind/blob/main/.github/workflows/ci.yml)
-[![Discord Shield](https://img.shields.io/discord/983602196493004820?style=flat&colorA=338fbb&colorB=1c1c1c&label=discord&logo=discord&logoColor=ffffff)](https://discord.gg/blanklob-community-983602196493004820)
-
-[Video guide](#video-guide) |
-[Usage](#usage) |
-[Tools](#tools) |
-[Contributing](#contributing) |
-[About](#about) |
-[License](#license)
-
-## Video guide
-
-<div align="center">
-  <a href="https://youtu.be/TWA3ZFiTvsY">
-    <img src="https://img.youtube.com/vi/TWA3ZFiTvsY/maxresdefault.jpg" alt="Watch the video" style="width:100%;">
-  </a>
-</div>
-
-A simple example of Dawn Shopify reference theme working with Tailwind CSS with Vite as build tool.
-
-## Usage
-
-To get started clone the template by clicking the **Use this template** button or by running the following command:
-
-```bash
-git clone https://github.com/odestry/dawn-with-tailwind.git
-```
 
 ### Running the development server
 
@@ -54,8 +24,6 @@ store = "your-store-name.myshopify.com"
 npm run dev
 ```
 
-After authenticating, this will start a local development server running at `https://localhost:9292` that you can use to preview your changes.
-
 ## Tools
 
 There are a number of really useful tools that the Shopify Themes team uses during development. This theme is already set up to work with these tools.
@@ -81,29 +49,3 @@ You can also run it from a terminal with the following Shopify CLI command:
 ```bash
 shopify theme check
 ```
-
-### Continuous Integration
-
-This theme uses [GitHub Actions](https://github.com/features/actions) to maintain the quality of the theme. [This is a starting point](https://github.com/odestry/dawn-with-tailwind/blob/main/.github/workflows/ci.yml) and what we suggest to use in order to ensure you're building better themes. Feel free to build off of it!
-
-#### Shopify/lighthouse-ci-action
-
-We love fast websites! Which is why we created [Shopify/lighthouse-ci-action](https://github.com/Shopify/lighthouse-ci-action). This runs a series of [Google Lighthouse](https://developers.google.com/web/tools/lighthouse) audits for the home, product and collections pages on a store to ensure code that gets added doesn't degrade storefront performance over time.
-
-#### Shopify/theme-check-action
-
-This theme runs [Theme Check](https://github.com/Shopify/theme-check-action) on every commit via [Shopify/theme-check-action](https://github.com/Shopify/theme-check-action).
-
-## Contributing
-
-We'd love your help! Please read our [contributing guide](https://github.com/odestry/.github/blob/main/CONTRIBUTING.md) to learn about our development process, how to propose bug fixes and improvements.
-
-## About
-
-Odestry isn't just a community; it's a group of dedicated folks all aiming to build better commerce together. Our mission is to create a supportive and open space where anyone, regardless of experience, can connect, learn, and grow. Here, you'll get inspired, have real talks, and find plenty of resources and open source tools to help you build. Whether you're looking to network, find opportunities, or just have meaningful conversations, join us and be part of a community that values authenticity, collaboration, and innovation. [Learn more](https://odestry.com).
-
-## License
-
-Copyright (c) 2024-present Odestry. See [LICENSE](/LICENSE.md) for further details.
-
-Copyright (c) 2021-present Shopify Inc. See [LICENSE](/LICENSE.md) for further details.

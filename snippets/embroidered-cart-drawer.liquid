@@ -46,8 +46,8 @@
   <div class="border border-gray-200 rounded">
     <!-- Accordion Title -->
     <div class="accordion-title p-4 bg-gray-100 border-b border-gray-200">
-      <div class="flex items-center justify-between cursor-pointer">
-        <label class="flex items-center" onclick="toggleCartAccordion(event, this, {{ embroidered_unik_time | default: 0 }})">
+      <div class="flex items-center justify-between">
+        <label class="flex items-center cursor-pointer" onclick="toggleCartAccordion(event, this, {{ embroidered_unik_time | default: 0 }})">
           <input
             type="checkbox"
             class="peer hidden embroidered_input"
@@ -81,7 +81,7 @@
       {% endif %}
     </div>
     <!-- Accordion Content -->
-    <div class="hidden p-4 bg-white">
+    <div class="hidden p-4 bg-white accordion_content">
       <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <!-- Left Column: Content -->
         <div class="space-y-6">

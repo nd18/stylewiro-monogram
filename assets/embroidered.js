@@ -157,12 +157,13 @@ const cartUpdateButton = document.querySelectorAll(".drawer__contents .update_bt
 // Helper function to check changes and toggle update button
 function toggleUpdateButton(prentDOM) {
   const updateBtn = prentDOM.querySelector(".update_btn");
+  const addBtn = prentDOM.querySelector(".add_embroidered_btn ");
   let isChanged = false;
 
   // Check name input
   const embroideredName = prentDOM.querySelector("input.cart_embroidered_name");
   const embroideredNameVal = embroideredName.value.trim();
-  const embroideredNameDeVal = embroideredName.parentElement.getAttribute('data-default-name');
+  const embroideredNameDeVal = embroideredName ? embroideredName.parentElement.getAttribute('data-default-name') : "";
 
   // Check color input
   const embroideredColor = prentDOM.querySelector(".product-color input:checked");
@@ -175,23 +176,28 @@ function toggleUpdateButton(prentDOM) {
   const embroideredFontDeVal = embroideredFont ? embroideredFont.parentElement.getAttribute('data-default-font') : "";
 
   // Compare values and check for changes
-  if (embroideredNameVal !== embroideredNameDeVal) {
+  if (embroideredNameVal !== embroideredNameDeVal & embroideredNameDeVal !== "") {
     isChanged = true;
   }
-  if (embroideredColorVal !== embroideredColorDeVal) {
+  if (embroideredColorVal !== embroideredColorDeVal && embroideredColorDeVal !== "") {
     isChanged = true;
   }
-  if (embroideredFontVal !== embroideredFontDeVal) {
+  if (embroideredFontVal !== embroideredFontDeVal && embroideredFontDeVal !== "") {
     isChanged = true;
   }
-
   // Toggle the update button visibility based on changes
   if (isChanged) {
     updateBtn.classList.remove("hidden");
     updateBtn.classList.add("inline-block");
+
+    addBtn.classList.add("hidden");
+    addBtn.classList.remove("inline-block");
   } else {
     updateBtn.classList.add("hidden");
     updateBtn.classList.remove("inline-block");
+
+    addBtn.classList.remove("hidden");
+    addBtn.classList.add("inline-block");
   }
 }
 
@@ -265,11 +271,16 @@ cartUpdateButton.forEach((updatebtn) => {
 function toggleCartAccordion(event, element, unikTime) {
   event.preventDefault();
   const checkbox = element.querySelector('input[type="checkbox"]');
+  const prentDOM = event.currentTarget.closest("#embroidered_cart_option");
+  const accordion_content = prentDOM.querySelector(".accordion_content");
   if (checkbox) {
     checkbox.checked = !checkbox.checked;
   }
   if (checkbox.checked) {
+    console.log("Check")
+    accordion_content.classList.remove("hidden");
   } else {
+    accordion_content.classList.add("hidden");
     if (unikTime !== 0) {
       updateEmbroideredProduct(unikTime, true)
     }
